@@ -1,0 +1,80 @@
+MARVEL HEROES TOOLKIT – FULL CHANGELOG
+========================================
+
+VERSION 1.x – COMMAND-LINE TOOLKIT DEVELOPMENT
+----------------------------------------------
+
+v1.0.0 – JSON-to-DB Conversion Core
+-----------------------------------
+- Created the first standalone script to convert `og1.json` into a working copy of `Account_og1.db`.
+- Focused on direct field-to-column mapping using SQLite insert statements.
+- Inserted one table and one column at a time in the correct schema order.
+- Verified that inserted values matched the original source database.
+
+v1.1.0 – Schema Standardization and Clean Base DB
+-------------------------------------------------
+- Introduced `MHclean.db` (renamed to `CLEAN_Account.db`) as a standardized import target.
+- This clean DB matched the structure of `Account_og1.db` but contained no data.
+- Allowed repeated testing of JSON imports into a fresh, blank schema.
+
+v1.2.0 – Binary Handling with Base64
+------------------------------------
+- Added support for encoding and decoding binary fields like `ArchiveData`, `PasswordHash`, and `Salt`.
+- Used Base64 encoding to ensure these values could be safely stored in JSON.
+- Ensured that re-imported binary fields preserved data integrity when inserted into BLOB columns.
+
+v1.3.0 – Foreign Key Resolution and GUID Matching
+-------------------------------------------------
+- Identified issues with foreign key mismatches due to rounding or transformation of GUIDs.
+- Implemented logic to link `ContainerDbGuid` and related fields even when GUIDs were altered in export.
+- Ensured child records (Avatars, TeamUps, Items) were correctly associated with parent containers.
+
+v1.4.0 – Structured Imports and Verification
+--------------------------------------------
+- Created structured import logic for all major tables: Account, Player, Avatar, TeamUp, and Item.
+- Verified imports by checking row counts, primary key matches, and field values.
+- Added safety checks to ensure the correct order of operations based on data dependencies.
+
+v1.5.0 – Tool Planning and Abstraction
+--------------------------------------
+- Explored creating a `JsonDBManager` class to manage import/export logic and improve modularity.
+- Considered abstracting JSON-to-DB mapping to allow reuse across different input formats.
+- Decided to prioritize procedural clarity over abstraction for CLI version.
+
+
+VERSION 2.x – GUI TOOLKIT WITH TKINTER
+--------------------------------------
+
+v2.0.0 – GUI Rebuild and Application Framework
+----------------------------------------------
+- Rebuilt the command-line tool as a GUI application using Tkinter.
+- Introduced a two-tab interface: one for Convert JSON to DB, another for Merge DB Files.
+- Connected the GUI to the existing CLI logic for JSON import and DB merging.
+- Allowed file selection for both `.json` and `.db` files using dialog windows.
+
+v2.1.0 – Layout Improvements and Spacing Fixes
+----------------------------------------------
+- Switched GUI layout management from `.pack()` to `.grid()` for more precise control.
+- Fixed spacing and alignment issues between buttons and other widgets.
+- Anchored import buttons and input sections to the top of each tab.
+- Improved compatibility with window resizing by adjusting row and column weights.
+
+v2.2.0 – PyInstaller and Executable Packaging
+---------------------------------------------
+- Added a `.spec` file (`marvel_heroes_gui.spec`) for building a standalone `.exe` using PyInstaller.
+- Created a `build.bat` script to simplify local builds on Windows.
+- Embedded `marvel_toolkit.ico` to assign a custom icon to the built application.
+
+v2.3.0 – Dual Log Panels for Tab-Specific Output
+------------------------------------------------
+- Replaced the original global log box with per-tab log windows for Convert and Merge tabs.
+- Updated the `log()` function to automatically route messages to the active tab’s log.
+- Continued printing messages to the console for development and debugging.
+
+v2.4.0 – GitHub Packaging and Release Prep
+------------------------------------------
+- Organized all source files into a clean, GitHub-friendly structure.
+- Created `README.md` with setup instructions, usage examples, and build steps.
+- Added `LICENSE` (MIT) and `requirements.txt` for users and contributors.
+- Verified that compiled `.exe` release stayed under 100MB for GitHub compatibility.
+- Created `changelog.txt` and prepared release notes for version tagging.
